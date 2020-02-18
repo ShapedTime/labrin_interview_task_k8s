@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin
+  labels:
+    app: pgadmin
+spec:
+  type: LoadBalancer
+  selector:
+    app: pgadmin
+  ports:
+  - port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+spec:
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      securityContext:
+        runAsGroup: 0
+        runAsUser: 0
+      containers:
+      - name: pgadmin
+        image: dpage/pgadmin4:4.10
+        ports:
+        - containerPort: 80
+        env:
+            - name: DEFAULT_USER
+              value: postgres
+            - name: DEFAULT_PASSWORD
+              value: test
+            - name: PGADMIN_SERVER_NAME
+              value: test
+            - name: PGADMIN_PORT
+              value: "80"
+            - name: DEBUG
+              value: "true"
+        volumeMounts:
+          - name: pgadmin-persistent-storage
+            mountPath: /var/lib/pgadmin
+          # - name: pgadmin-persistent-storage
+          #   mountPath: /pgadmin4
+        args: [";chown -R pgadmin:pgadmin /var/lib/pgadmin; chown -R pgadmin:pgadmin /pgadmin4"]
+      volumes:
+        - name: pgadmin-persistent-storage
+          nfs:
+            server: nfs-server.default.svc.cluster.local
+            path: /pgadmin
