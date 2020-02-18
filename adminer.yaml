@@ -5,7 +5,7 @@ metadata:
   labels:
     app: adminer
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: adminer
   ports:
@@ -51,5 +51,5 @@ spec:
         - name: mysql-persistent-storage
           nfs:
             server: nfs-server.default.svc.cluster.local
-            path: /adminer/php
+            path: /adminer
         

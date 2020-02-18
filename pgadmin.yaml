@@ -5,18 +5,19 @@ metadata:
   labels:
     app: pgadmin
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: pgadmin
   ports:
   - port: 80
-    targetPort: 80
+    targetPort: 5050
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pgadmin
 spec:
+  replicas: 5
   selector:
     matchLabels:
       app: pgadmin
@@ -26,30 +27,43 @@ spec:
         app: pgadmin
     spec:
       securityContext:
-        runAsGroup: 0
-        runAsUser: 0
+        runAsGroup: 5050
+        runAsUser: 5050
+        fsGroup: 5050
       containers:
       - name: pgadmin
-        image: dpage/pgadmin4:4.10
+        image: dpage/pgadmin4:4.16
         ports:
-        - containerPort: 80
+        - containerPort: 5050
         env:
-            - name: DEFAULT_USER
-              value: postgres
-            - name: DEFAULT_PASSWORD
-              value: test
-            - name: PGADMIN_SERVER_NAME
-              value: test
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: "testtest"
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: "testtest"
+            - name: PGADMIN_LISTEN_PORT
+              value: "5050"
             - name: PGADMIN_PORT
-              value: "80"
-            - name: DEBUG
-              value: "true"
+              value: "5050"
+            # - name: PGADMIN_DEFAULT_SERVER
+            #   value: "0.0.0.0/pgadmin/"
+            # - name: PGADMIN_LISTEN_ADDRESS
+            #   value: "127./pgadmin/"
+        #     - name: GUNICORN_ACCESS_LOGFILE
+        #       value: "/var/lib/pgadmin/gunicorn_access.log"
+        #     - name: DEBUG
+        #       value: "true"
         volumeMounts:
           - name: pgadmin-persistent-storage
             mountPath: /var/lib/pgadmin
-          # - name: pgadmin-persistent-storage
-          #   mountPath: /pgadmin4
-        args: [";chown -R pgadmin:pgadmin /var/lib/pgadmin; chown -R pgadmin:pgadmin /pgadmin4"]
+          - name: pgadmin-persistent-storage
+            mountPath: /var/log/pgadmin
+        args: [";chown -R pgadmin:pgadmin /pgadmin4; chown -R pgadmin:pgadmin /pgadmin4/*; chmod a+rwx /pgadmin4/*"]
+        # readinessProbe:
+        #     httpGet:
+        #       path: /login
+        #       port: 5050
+        # command: ["/bin/sh", "-c"]
+        # args: ["tail -f /pgadmin4/*.py"]
       volumes:
         - name: pgadmin-persistent-storage
           nfs:
