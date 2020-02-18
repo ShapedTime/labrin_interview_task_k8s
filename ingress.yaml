@@ -5,9 +5,6 @@ metadata:
   namespace: "default"
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    # nginx.ingress.kubernetes.io/use-regex: "true"
-    # nginx.ingress.kubernetes.io/rewrite-target: /
-    # nginx.ingress.kubernetes.io/add-base-url : "true"
     nginx.ingress.kubernetes.io/configuration-snippet: |
      rewrite ^/pgadmin / break;
 spec:
@@ -30,11 +27,3 @@ spec:
         backend:
           serviceName: "pgadmin"
           servicePort: 80
-      # - path: /adminer(/|$)(.*)
-      #   backend:
-      #     serviceName: "adminer"
-      #     servicePort: 80
-      # - path: /pgadmin(/|$)(.*)
-      #   backend:
-      #     serviceName: "pgadmin"
-      #     servicePort: 80
