@@ -1,0 +1,1 @@
+# labrin_interview_task_k8s
