@@ -19,7 +19,7 @@ metadata:
   labels:
     app: adminer
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: adminer
@@ -27,7 +27,7 @@ spec:
     metadata:
       labels:
         app: adminer
-        stage: production
+        stage: canary
     spec:
       securityContext:
         runAsUser: 0

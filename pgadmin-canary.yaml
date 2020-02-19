@@ -17,7 +17,7 @@ kind: Deployment
 metadata:
   name: pgadmin
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: pgadmin
@@ -25,7 +25,7 @@ spec:
     metadata:
       labels:
         app: pgadmin
-        stage: production
+        stage: canary
     spec:
       securityContext:
         runAsGroup: 5050
@@ -33,7 +33,7 @@ spec:
         fsGroup: 5050
       containers:
       - name: pgadmin
-        image: dpage/pgadmin4:4.16
+        image: dpage/pgadmin4:4.17
         ports:
         - containerPort: 5050
         env:
