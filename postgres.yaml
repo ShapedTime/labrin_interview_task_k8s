@@ -31,7 +31,7 @@ spec:
         - containerPort: 5432
         env:
           - name: POSTGRES_PASSWORD
-            value: postgres
+            value: 2c4cb3bac8aea7bdb6a4e32e4f
         volumeMounts:
           - name: postgres
             mountPath: /var/lib/postgresql/data
