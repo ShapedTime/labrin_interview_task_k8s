@@ -32,7 +32,7 @@
   - Couldn't make pgadmin use the path `/pgadmin/` with Ingress so assigned the path `/` to pgadmin and made path `/pgadmin/` to redirect to path `/`
 - Pgadmin4:
   - Faced problem that when you type login credentials and press login most of the time, you don't login and get redirected back to login page. Even if you login you face different, <i>weird</i> problems.
-  > Couldn't solve that issue. Probably session problem. Researched the internet asked several friends but couldn't find solution or why it actually happened as I mounted all the session and config paths mentioned in documentation.
+  > Couldn't solve that issue. Probably session problem. Researched the internet, asked several friends but couldn't find solution or why it actually happened as I mounted all the session and config paths mentioned in documentation.
 
 ## How to use:
 
