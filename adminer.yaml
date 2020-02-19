@@ -38,18 +38,18 @@ spec:
         ports:
         - containerPort: 8080
         volumeMounts:
-          - name: mysql-persistent-storage
+          - name: adminer-persistent-storage
             mountPath: /tmp
-          - name: mysql-persistent-storage
+          - name: adminer-persistent-storage
             mountPath: /var/lib/php7
-          - name: mysql-persistent-storage
+          - name: adminer-persistent-storage
             mountPath: /var/lib/php
-          - name: mysql-persistent-storage
+          - name: adminer-persistent-storage
             mountPath: /var/lib/mysql
         command: ["/bin/sh", "-c"]
         args: ["chown adminer:adminer /var/lib/mysql; chown adminer:adminer /var/lib/php; chown adminer:adminer /var/lib/php7; chown adminer:adminer /tmp; ADMINER_DESIGN=pappu687 php -S [::]:8080 -t /var/www/html"]
       volumes:
-        - name: mysql-persistent-storage
+        - name: adminer-persistent-storage
           nfs:
             server: nfs-server.default.svc.cluster.local
             path: /adminer
