@@ -32,7 +32,7 @@
   - Couldn't make pgadmin use the path `/pgadmin/` with Ingress so assigned the path `/` to pgadmin and made path `/pgadmin/` to redirect to path `/`
 - Pgadmin4:
   - Faced problem that when you type login credentials and press login most of the time, you don't login and get redirected back to login page. Even if you login you face different, <i>weird</i> problems.
-  > Couldn't solve that issue. Probably session problem. Researched the internet, asked several friends but couldn't find solution or why it actually happened as I mounted all the session and config paths mentioned in documentation.
+  > NGINX ingress has sticky sessions annotation that could be used to solve the issue but turns out that host should be declared to use that. So you should add `IP_ADDR labrin.test` to your `/etc/hosts` file to access pgadmin and adminer.
 
 ## How to use:
 
@@ -57,4 +57,9 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/ngin
 # loadBalancerIP: 157.230.104.220 should be added to the file below to have static IP. (Also you need to have the same static IP in Google Cloud)
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.26.1/deploy/static/provider/cloud-generic.yaml
 kubectl apply -f ingress.yaml
+```
+
+Finally add your ingress's IP address to your `/etc/hosts` file like:
+```
+<ingress ip address> labrin.test
 ```
