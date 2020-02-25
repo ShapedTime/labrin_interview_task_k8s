@@ -34,7 +34,7 @@ spec:
             value: 2c4cb3bac8aea7bdb6a4e32e4f
         volumeMounts:
           - name: postgres
-            mountPath: /var/lib/postgresql/data
+            mountPath: /var/lib/postgresql
       volumes:
         - name: postgres
           nfs:
